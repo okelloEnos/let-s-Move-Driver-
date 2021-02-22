@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="token">d55a7b35369b500eb53633f5f70769d237f8acd2</string>
+    <string name="public_token">pk.eyJ1IjoiY29kZS1nZW5lcmFsIiwiYSI6ImNra2NtcjBwcTBsaXMyb29hMGw4ZzFnZXIifQ.MmdOkaY4tpy2MauYCPB-Mg</string>
+    <string name="secret_token">sk.eyJ1IjoiY29kZS1nZW5lcmFsIiwiYSI6ImNra2NubWdjNDBsdHoybm9hMDB6cG4zaXYifQ.UNUic_aQL5RrOEq562JR_g</string>
 </resources>
