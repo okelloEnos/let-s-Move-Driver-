@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909770926804",
+    "project_id": "let-s-move-82f84",
+    "storage_bucket": "let-s-move-82f84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909770926804:android:742c95c10ca374063ba941",
+        "android_client_info": {
+          "package_name": "com.okellosoftwarez.letsmovedriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909770926804-qfonbvf80v4g3dp9d93bkvhrtfi5eiv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVsGtivWPqi4t_oe3AlRO9yuxah3BQxug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909770926804-qfonbvf80v4g3dp9d93bkvhrtfi5eiv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

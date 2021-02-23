@@ -18,6 +18,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.mapbox.android.core.location.*
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
@@ -31,7 +33,6 @@ import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.databinding.FragmentNotificationsBinding
 import com.okellosoftwarez.letsmovedriver.util.GPSUtils
 import com.okellosoftwarez.letsmovedriver.util.locationUpdater
-import java.lang.ref.WeakReference
 
 
 class NotificationsFragment : Fragment() {
@@ -45,13 +46,11 @@ class NotificationsFragment : Fragment() {
     private val DEFAULT_INTERVAL_IN_MILLISECONDS : Long = 1000L
     private val DEFAULT_MAX_WAIT_TIME : Long = DEFAULT_INTERVAL_IN_MILLISECONDS * 5
 
-    private var  location : Location? = null
+    val databaseInstance = Firebase.database
+    val myRef = databaseInstance.getReference("Message")
+
 
     // Variables needed to listen to location updates
-//    private val callback: MainActivityLocationCallback = MainActivityLocationCallback(this)
-//    private val callback : NotificationsFragmentLocationCallback = NotificationsFragmentLocationCallback(this)
-//    private val callback : LocationEngineCallback<NotificationsFragment> =
-//    private val caller : NotificationsFragmentLocationCallback = NotificationsFragmentLocationCallback(requireActivity())
     private val callback : locationUpdater = locationUpdater(this)
 
     companion object {
@@ -65,6 +64,8 @@ class NotificationsFragment : Fragment() {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root : View = binding!!.root
 
+        myRef.setValue("Evette || Bijuma")
+
         notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         GPSUtils(requireContext()).turnGPSOn(object : GPSUtils.onGpsListener {
@@ -74,18 +75,6 @@ class NotificationsFragment : Fragment() {
             }
         })
 
-//        if (checkPermission()){
-//            Toast.makeText(requireContext(), "Permission on...", Toast.LENGTH_SHORT).show()
-//        }
-//        else{
-//            Toast.makeText(requireContext(), "Requesting for Permission...", Toast.LENGTH_LONG).show()
-//            requestPermissions(arrayOf <String> (Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
-//        }
-
-//        val textView: TextView = root.findViewById(R.id.text_notifications)
-//        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
         binding?.notificationMapView?.onCreate(savedInstanceState)
         binding?.notificationMapView?.getMapAsync(object : OnMapReadyCallback {
             override fun onMapReady(mapboxMap: MapboxMap) {
@@ -96,7 +85,9 @@ class NotificationsFragment : Fragment() {
                         if (checkPermission()) {
 
                             Toast.makeText(requireContext(), "Map has permission already", Toast.LENGTH_SHORT).show()
+
                             enablePersonalLocation(style)
+
                         } else {
                             Toast.makeText(requireContext(), "Map requesting Permission", Toast.LENGTH_SHORT).show()
                             requestPermissions(arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
@@ -154,6 +145,9 @@ class NotificationsFragment : Fragment() {
 //        set render mode
         locationComponent.renderMode = RenderMode.COMPASS
 
+//        var locality : Location? = plocationComponent.lastKnownLocation
+//        Log.d("Locality", "enablePersonalLocation: Lat : " + locality?.latitude + " Long : " + locality?.longitude)
+
         initLocationEngine()
 
     }
@@ -168,15 +162,16 @@ class NotificationsFragment : Fragment() {
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME)
                 .build()
-
+//        val locality : Location = locationEngine.getLastLocation()
+//        var locationEng : LocationEngine = LocationEngineProvider(requireActivity()).obtainBestLocationEngineAvailable();
+//        locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
+//        locationEngine.activate();
         locationEngine.requestLocationUpdates(request, callback, Looper.getMainLooper())
-//        Log.d("Frag", "initLocationEngine: " + locationUpdater.okello)
-//        Log.d("Frag", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude )
-//        Log.d("Frag", "initLocationEngine: " + locationUpdater.location2)
+
         locationEngine.getLastLocation(callback)
 
 //        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude , Toast.LENGTH_LONG).show()
-        Log.d("Frag", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude )
+        Log.d("Frag", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
 
     }
 
@@ -219,13 +214,16 @@ class NotificationsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         binding?.notificationMapView?.onStart()
+//        if (locationEngine != null) locationEngine.requestLocationUpdates()
+        Log.d("FragStart", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
+
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("FragResume", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude )
+        Log.d("FragResume", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
 
-        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude , Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude, Toast.LENGTH_LONG).show()
         binding?.notificationMapView?.onResume()
     }
 
