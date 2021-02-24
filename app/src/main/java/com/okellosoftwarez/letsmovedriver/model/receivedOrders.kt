@@ -9,5 +9,4 @@ data class receivedOrders(val sourceLocation: String? = null, val destinationLoc
                           val cost: Double? = null){
 
 
-
 }
