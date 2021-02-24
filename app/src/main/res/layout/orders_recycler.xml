@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="#efefef"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ordersCardView">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/staticLocationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Source Location : " />
+
+    <TextView
+        android:id="@+id/dynamicLocationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticLocationSource"
+        app:layout_constraintBottom_toBottomOf="@id/staticLocationSource"
+        app:layout_constraintStart_toEndOf="@id/staticLocationSource"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="location" />
+
+    <TextView
+        android:id="@+id/staticDestinationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticLocationSource"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Destination Location : " />
+
+    <TextView
+        android:id="@+id/dynamicDestinationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticDestinationSource"
+        app:layout_constraintBottom_toBottomOf="@id/staticDestinationSource"
+        app:layout_constraintStart_toEndOf="@id/staticDestinationSource"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="location" />
+
+    <TextView
+        android:id="@+id/staticVehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticDestinationSource"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Vehicle Type : " />
+
+    <TextView
+        android:id="@+id/dynamicVehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticVehicle"
+        app:layout_constraintBottom_toBottomOf="@id/staticVehicle"
+        app:layout_constraintStart_toEndOf="@id/staticVehicle"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="vehicle mode" />
+
+    <TextView
+        android:id="@+id/staticCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticVehicle"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Cost : " />
+
+    <TextView
+        android:id="@+id/dynamicCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticCost"
+        app:layout_constraintBottom_toBottomOf="@id/staticCost"
+        app:layout_constraintStart_toEndOf="@id/staticCost"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="cost" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
