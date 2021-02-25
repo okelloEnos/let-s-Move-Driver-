@@ -18,7 +18,7 @@ import com.okellosoftwarez.letsmovedriver.adapter.ordersAdapter
 import com.okellosoftwarez.letsmovedriver.databinding.FragmentHomeBinding
 import com.okellosoftwarez.letsmovedriver.model.receivedOrders
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var homeBinding: FragmentHomeBinding

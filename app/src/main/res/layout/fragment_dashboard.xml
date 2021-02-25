@@ -7,16 +7,254 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <TextView
-        android:id="@+id/text_dashboard"
+        android:id="@+id/moreDashboard"
+        android:layout_width="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guidelineDashboard"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:text="Relocation Details : " />
+
+    <TextView
+        android:id="@+id/contactDashboard"
+        android:layout_width="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guidelineDashboardContact"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:text="Contact Details : " />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.09" />
+
+    <TextView
+        android:id="@+id/staticLocationSourceDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guidelineDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Source Location : " />
+
+    <TextView
+        android:id="@+id/dynamicLocationSourceDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticLocationSourceDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticLocationSourceDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticLocationSourceDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="location" />
+
+    <TextView
+        android:id="@+id/staticDestinationSourceDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticLocationSourceDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Destination Location : " />
+
+    <TextView
+        android:id="@+id/dynamicDestinationSourceDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticDestinationSourceDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticDestinationSourceDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticDestinationSourceDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="location" />
+
+    <TextView
+        android:id="@+id/staticVehicleDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticDestinationSourceDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Vehicle Type : " />
+
+    <TextView
+        android:id="@+id/dynamicVehicleDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticVehicleDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticVehicleDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticVehicleDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="vehicle mode" />
+
+    <TextView
+        android:id="@+id/staticCostDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticTimeDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Cost : " />
+
+    <TextView
+        android:id="@+id/dynamicCostDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticCostDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticCostDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticCostDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="cost" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDashboardContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.61" />
+
+
+    <TextView
+        android:id="@+id/staticSourceContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guidelineDashboardContact"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Source Contact : " />
+
+    <TextView
+        android:id="@+id/dynamicSourceContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticSourceContact"
+        app:layout_constraintBottom_toBottomOf="@id/staticSourceContact"
+        app:layout_constraintStart_toEndOf="@id/staticSourceContact"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Phone number" />
+
+    <TextView
+        android:id="@+id/staticDestinationContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticSourceContact"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Destination Contact : " />
+
+    <TextView
+        android:id="@+id/dynamicDestinationContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticDestinationContact"
+        app:layout_constraintBottom_toBottomOf="@id/staticDestinationContact"
+        app:layout_constraintStart_toEndOf="@id/staticDestinationContact"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Phone number" />
+
+    <TextView
+        android:id="@+id/staticDateDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticVehicleDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Pick up date : " />
+
+    <TextView
+        android:id="@+id/dynamicDateDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticDateDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticDateDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticDateDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/staticTimeDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/staticDateDashboard"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Pick up time : " />
+
+    <TextView
+        android:id="@+id/dynamicTimeDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/staticTimeDashboard"
+        app:layout_constraintBottom_toBottomOf="@id/staticTimeDashboard"
+        app:layout_constraintStart_toEndOf="@id/staticTimeDashboard"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Time" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDashboardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.79" />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/acceptRequest"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineDashboardButton"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Accept request"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

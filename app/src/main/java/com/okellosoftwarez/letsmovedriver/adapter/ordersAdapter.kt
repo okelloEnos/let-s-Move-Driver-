@@ -1,9 +1,12 @@
 package com.okellosoftwarez.letsmovedriver.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.databinding.OrdersRecyclerBinding
@@ -17,8 +20,9 @@ class ordersAdapter (private val orderList: ArrayList<receivedOrders>) : Recycle
         val locationDestination : TextView = itemView.findViewById(R.id.dynamicDestinationSource)
         val vehicleType : TextView = itemView.findViewById(R.id.dynamicVehicle)
         val costView : TextView = itemView.findViewById(R.id.dynamicCost)
+        val orderView : CardView = itemView.findViewById(R.id.ordersCardView)
 
-    }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ordersViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.orders_recycler, parent, false)
@@ -31,7 +35,9 @@ class ordersAdapter (private val orderList: ArrayList<receivedOrders>) : Recycle
         holder.locationDestination.text = currentOrder.destinationLocation
         holder.vehicleType.text = currentOrder.vehicleType
         holder.costView.text = currentOrder.cost.toString()
-
+        holder.orderView.setOnClickListener{
+            Log.d("Click", "onBindViewHolder: $position")
+        }
     }
 
     override fun getItemCount(): Int {
