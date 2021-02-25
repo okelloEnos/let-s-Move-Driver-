@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.databinding.OrdersRecyclerBinding
 import com.okellosoftwarez.letsmovedriver.model.receivedOrders
+import com.okellosoftwarez.letsmovedriver.sharedViewModel.sharedViewModel
 
-class ordersAdapter (private val orderList: ArrayList<receivedOrders>) : RecyclerView.Adapter<ordersAdapter.ordersViewHolder>(){
+class ordersAdapter (private val orderList: ArrayList<receivedOrders>,
+private val viewModel: sharedViewModel) : RecyclerView.Adapter<ordersAdapter.ordersViewHolder>(){
 //    lateinit var binding: OrdersRecyclerBinding
 
     class ordersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -37,6 +39,7 @@ class ordersAdapter (private val orderList: ArrayList<receivedOrders>) : Recycle
         holder.costView.text = currentOrder.cost.toString()
         holder.orderView.setOnClickListener{
             Log.d("Click", "onBindViewHolder: $position")
+            viewModel.clickedOrder(currentOrder)
         }
     }
 

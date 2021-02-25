@@ -9,23 +9,33 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.okellosoftwarez.letsmovedriver.R
+import com.okellosoftwarez.letsmovedriver.databinding.FragmentDashboardBinding
+import com.okellosoftwarez.letsmovedriver.sharedViewModel.sharedViewModel
 
 class DashboardFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var dashboardViewModel: sharedViewModel
+    private lateinit var dashboardBinding: FragmentDashboardBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-//        val textView: TextView = root.findViewById(R.id.text_dashboard)
-//        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
+        dashboardViewModel = ViewModelProvider(requireActivity()).get(sharedViewModel::class.java)
+        dashboardBinding = FragmentDashboardBinding.inflate(inflater, container, false)
+        val root = dashboardBinding.root
+
+        dashboardViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            dashboardBinding.dynamicLocationSourceDashboard.text = it.sourceLocation
+            dashboardBinding.dynamicDestinationSourceDashboard.text = it.destinationLocation
+            dashboardBinding.dynamicVehicleDashboard.text = it.vehicleType
+            dashboardBinding.dynamicDateDashboard.text = it.scheduleDate
+            dashboardBinding.dynamicTimeDashboard.text = it.scheduleTime
+            dashboardBinding.dynamicCostDashboard.text = it.cost.toString()
+            dashboardBinding.dynamicSourceContact.text = it.sourceContact
+            dashboardBinding.dynamicDestinationContact.text = it.destinationContact
+        })
         return root
     }
 }

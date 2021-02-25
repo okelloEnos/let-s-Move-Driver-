@@ -17,10 +17,11 @@ import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.adapter.ordersAdapter
 import com.okellosoftwarez.letsmovedriver.databinding.FragmentHomeBinding
 import com.okellosoftwarez.letsmovedriver.model.receivedOrders
+import com.okellosoftwarez.letsmovedriver.sharedViewModel.sharedViewModel
 
 class HomeFragment : Fragment(){
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: sharedViewModel
     private lateinit var homeBinding: FragmentHomeBinding
     private lateinit var databaseInstance : FirebaseDatabase
     private lateinit var reference: DatabaseReference
@@ -31,7 +32,7 @@ class HomeFragment : Fragment(){
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(sharedViewModel::class.java)
         homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         val root = homeBinding.root
 
@@ -52,7 +53,7 @@ class HomeFragment : Fragment(){
                     }
                 }
                 homeBinding.placedRecyclerView.layoutManager = layoutManager
-                homeBinding.placedRecyclerView.adapter = ordersAdapter(orderList)
+                homeBinding.placedRecyclerView.adapter = ordersAdapter(orderList, homeViewModel)
 
                 Toast.makeText(requireContext(), "Orders Present = " + orderList.size
                         + "  :items : " + orderList.toString(), Toast.LENGTH_LONG).show()
