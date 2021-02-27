@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -17,10 +16,16 @@ import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.mapbox.android.core.location.*
+import com.mapbox.android.core.location.LocationEngine
+import com.mapbox.android.core.location.LocationEngineProvider
+import com.mapbox.android.core.location.LocationEngineRequest
+import com.mapbox.geojson.Feature
+import com.mapbox.geojson.FeatureCollection
+import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
 import com.mapbox.mapboxsdk.location.LocationComponentOptions
@@ -29,15 +34,21 @@ import com.mapbox.mapboxsdk.location.modes.RenderMode
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
+import com.mapbox.mapboxsdk.utils.BitmapUtils
 import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.databinding.FragmentNotificationsBinding
+import com.okellosoftwarez.letsmovedriver.sharedViewModel.sharedViewModel
 import com.okellosoftwarez.letsmovedriver.util.GPSUtils
 import com.okellosoftwarez.letsmovedriver.util.locationUpdater
 
 
 class NotificationsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var notificationsViewModel: sharedViewModel
     private var binding: FragmentNotificationsBinding? = null
     private lateinit var trackMapBoxMap: MapboxMap
     private var isGPS : Boolean = false
@@ -45,6 +56,15 @@ class NotificationsFragment : Fragment() {
     private lateinit var locationEngine: LocationEngine
     private val DEFAULT_INTERVAL_IN_MILLISECONDS : Long = 1000L
     private val DEFAULT_MAX_WAIT_TIME : Long = DEFAULT_INTERVAL_IN_MILLISECONDS * 5
+    private var sourceLat: Double? = null
+    private var sourceLong: Double? = null
+    private var destinationLat: Double? = null
+    private var destinationLong: Double? = null
+    private val symbolIconId = "symbolIconId"
+    private val geoSourceLayerId = "sourceLayerId"
+    private val geoDestinationId = "destLayerId"
+    private var driverLat: Double? = null
+    private var driverLong: Double? = null
 
     val databaseInstance = Firebase.database
     val myRef = databaseInstance.getReference("Message")
@@ -64,9 +84,22 @@ class NotificationsFragment : Fragment() {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root : View = binding!!.root
 
-        myRef.setValue("Evette || Bijuma")
+//        myRef.setValue("Evette || Bijuma")
 
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        notificationsViewModel = ViewModelProvider(requireActivity()).get(sharedViewModel::class.java)
+
+        notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            sourceLat = it.sourceLocationLatitude
+        })
+        notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            sourceLong = it.sourceLocationLongitude
+        })
+        notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            destinationLat = it.destinationLocationLatitude
+        })
+        notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            destinationLong = it.destinationLocationLongitude
+        })
 
         GPSUtils(requireContext()).turnGPSOn(object : GPSUtils.onGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
@@ -93,15 +126,18 @@ class NotificationsFragment : Fragment() {
                             requestPermissions(arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
                         }
 
-                        // Add the symbol layer icon to map for future use
+//                         Add the symbol layer icon to map for future use
                         // Add the red marker icon image to the map
-//                        style.addImage(symbolIconId, BitmapUtils.getBitmapFromDrawable(
-//                            getResources().getDrawable(R.drawable.marker_location)));
+//                        style.addImage("okay", BitmapUtils.getBitmapFromDrawable(resources.getDrawable(
+//                                R.drawable.marker_location, getTh
+//                        )))
+                        style.addImage(symbolIconId, BitmapUtils.getBitmapFromDrawable(
+                                getResources().getDrawable(R.drawable.marker_location))!!)
 
-                        // Create an empty GeoJSON source using the empty feature collection
-//                        setUpSource(style);
+//                         Create an empty GeoJSON source using the empty feature collection
+                        setUpSource(style);
 //
-//                        setUpDestination(style);
+                        setUpDestination(style);
 //
 //                        setRouteLayer(style);
 
@@ -112,6 +148,48 @@ class NotificationsFragment : Fragment() {
         })
 
         return root
+    }
+
+    private fun setUpDestination(style: Style) {
+        if (sourceLat == null || sourceLong == null){
+            style.addSource(GeoJsonSource(geoDestinationId))
+        }
+        else {
+//            add marker destination coordinates to the map
+            style.addSource(GeoJsonSource(geoDestinationId, FeatureCollection.fromFeatures(arrayOf<Feature>(
+                    Feature.fromGeometry(Point.fromLngLat(sourceLong!!, sourceLat!!))
+            ))))
+
+//            if (driverLong != null && driverLat != null){
+//                bound()
+//            }
+
+        }
+
+//        add the marker icon symbol layer to map
+        style.addLayer(SymbolLayer("layer_destination", geoDestinationId)
+                .withProperties(iconImage(symbolIconId), iconOffset(arrayOf<Float>(0f, -8f))))
+    }
+
+    private fun setUpSource(style: Style) {
+        if (driverLat == null || driverLong == null){
+            style.addSource(GeoJsonSource(geoSourceLayerId))
+        }
+        else {
+
+//            add driver marker
+            style.addSource(GeoJsonSource(geoSourceLayerId,
+                    FeatureCollection.fromFeatures(arrayOf<Feature>(
+                            Feature.fromGeometry(Point.fromLngLat(driverLong!!, driverLat!!))
+                    ))))
+
+//        if(sourceLat != null && sourceLong != null){
+//           bound()
+//        }
+        }
+//        add the marker to the map
+        style.addLayer(SymbolLayer("layer_id", geoSourceLayerId)
+                .withProperties(iconImage(symbolIconId), iconOffset(arrayOf<Float>(0f, -8f))))
     }
 
     @SuppressLint("MissingPermission")
@@ -169,9 +247,11 @@ class NotificationsFragment : Fragment() {
         locationEngine.requestLocationUpdates(request, callback, Looper.getMainLooper())
 
         locationEngine.getLastLocation(callback)
+        driverLat = locationUpdater.location?.latitude
+        driverLong = locationUpdater.location?.longitude
 
 //        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude , Toast.LENGTH_LONG).show()
-        Log.d("Frag", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
+        Log.d("Frag", "initLocationEngine: Lat : " + driverLat + " Long : " + driverLong)
 
     }
 
