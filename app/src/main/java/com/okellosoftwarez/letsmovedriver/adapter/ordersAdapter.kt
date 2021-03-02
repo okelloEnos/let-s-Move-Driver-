@@ -15,7 +15,6 @@ import com.okellosoftwarez.letsmovedriver.sharedViewModel.sharedViewModel
 
 class ordersAdapter (private val orderList: ArrayList<receivedOrders>,
 private val viewModel: sharedViewModel) : RecyclerView.Adapter<ordersAdapter.ordersViewHolder>(){
-//    lateinit var binding: OrdersRecyclerBinding
 
     class ordersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val locationSource : TextView = itemView.findViewById(R.id.dynamicLocationSource)

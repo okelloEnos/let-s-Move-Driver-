@@ -113,7 +113,6 @@ class NotificationsFragment : Fragment() {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
 
-//        Log.d(TAG, "onCreateView: " + "2")
         notificationsViewModel = ViewModelProvider(requireActivity()).get(sharedViewModel::class.java)
 
         notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
@@ -129,7 +128,6 @@ class NotificationsFragment : Fragment() {
             destinationLong = it.destinationLocationLongitude
         })
 
-//        Log.d(TAG, "onCreateView: " + "3")
         GPSUtils(requireContext()).turnGPSOn(object : GPSUtils.onGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
                 // turn on GPS
@@ -137,56 +135,14 @@ class NotificationsFragment : Fragment() {
             }
         })
 
-//        val mapListener = object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                for (orderShot in snapshot.children) {
-//                    val mapMap = snapshot.getValue<String>()
-//
-//
-//                if (trackMapBoxMap != null){
-//                    Log.d(TAG, "onDataChange: Enos")
-//                }
-//                else{
-//                    Log.d(TAG, "onDataChange: Okello")
-//                }
-//                    if (order != null) {
-//                        orderList.add(order)
-//                    }
-//                }
-//                homeBinding.placedRecyclerView.layoutManager = layoutManager
-//                homeBinding.placedRecyclerView.adapter = ordersAdapter(orderList, homeViewModel)
-
-//                Toast.makeText(requireContext(), "Orders Present = " + orderList.size
-//                        + "  :items : " + orderList.toString(), Toast.LENGTH_LONG).show()
-//            }
-
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.d("Listener", "onCancelled: " + error.message)
-//            }
-//        }
-//
-//        myRef.addValueEventListener(mapListener)
-
-        Log.d(TAG, "onCreateView: " + "1")
         binding?.notificationMapView?.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreateView: "+ "2")
 
-//        Log.d(TAG, "onCreateView: " + "7")
         binding?.notificationMapView?.getMapAsync { mapboxMap ->
-            Log.d(TAG, "onCreateView: " + "3")
 
             trackMapBoxMap = mapboxMap
 
             notificationsViewModel.keepTrack(mapboxMap)
-//            val key: String? = myRef.push().key
-//            if (key != null) {
-//                myRef.child("071622").setValue("Legal")
-//            }
-//            sharedPreferences = requireActivity().getSharedPreferences(Shared_File, Context.MODE_PRIVATE)
-//            val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
-//            editor?.putString("mapMap", mapboxMap.toString())
-//            editor?.apply()
-            Log.d(TAG, "onCreateView: " + "OkayMap : " + mapboxMap)
+
             trackMapBoxMap?.setStyle(Style.MAPBOX_STREETS) { style ->
                 if (checkPermission()) {
 
@@ -198,14 +154,6 @@ class NotificationsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Map requesting Permission", Toast.LENGTH_SHORT).show()
                     requestPermissions(arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
                 }
-
-                //                         Add the symbol layer icon to map for future use
-                // Add the red marker icon image to the map
-                //                        style.addImage("okay", BitmapUtils.getBitmapFromDrawable(resources.getDrawable(
-                //                                R.drawable.marker_location, getTh
-                //                        )))
-//                style.addImage(symbolIconId, BitmapUtils.getBitmapFromDrawable(
-//                        resources.getDrawable(R.drawable.marker_location))!!)
 
                 style.addImage(symbolIconId, BitmapUtils.getBitmapFromDrawable(
                         resources.getDrawable(R.drawable.marker_location, null))!!)
@@ -317,9 +265,6 @@ class NotificationsFragment : Fragment() {
 //        set render mode
         locationComponent?.renderMode = RenderMode.COMPASS
 
-//        var locality : Location? = plocationComponent.lastKnownLocation
-//        Log.d("Locality", "enablePersonalLocation: Lat : " + locality?.latitude + " Long : " + locality?.longitude)
-
         initLocationEngine()
 
     }
@@ -334,18 +279,12 @@ class NotificationsFragment : Fragment() {
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME)
                 .build()
-//        val locality : Location = locationEngine.getLastLocation()
-//        var locationEng : LocationEngine = LocationEngineProvider(requireActivity()).obtainBestLocationEngineAvailable();
-//        locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
-//        locationEngine.activate();
+
         locationEngine.requestLocationUpdates(request, callback, Looper.getMainLooper())
 
         locationEngine.getLastLocation(callback)
         driverLat = locationUpdater.location?.latitude
         driverLong = locationUpdater.location?.longitude
-
-//        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude , Toast.LENGTH_LONG).show()
-        Log.d("Frag", "initLocationEngine: Lat : " + driverLat + " Long : " + driverLong)
 
     }
 
@@ -359,7 +298,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -369,7 +308,6 @@ class NotificationsFragment : Fragment() {
 //                if the request is cancelled arrays are always empty
                 if (grantResults?.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
-//                    enablePersonalLocation(trackMapBoxMap.style!!)
                     trackMapBoxMap?.getStyle() {
                         Style.OnStyleLoaded { style -> enablePersonalLocation(style) }
                     }
@@ -426,52 +364,38 @@ class NotificationsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         binding?.notificationMapView?.onStart()
-//        if (locationEngine != null) locationEngine.requestLocationUpdates()
-        Log.d(TAG, "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
 
     }
     override fun onResume() {
-        Log.d(TAG, "onResume: " + "Okay 1 : " + trackMapBoxMap)
         notificationsViewModel.mapBoxMap.observe(viewLifecycleOwner, Observer {
-            Log.d(TAG, "onResume: Using Model " + it)
             trackMapBoxMap = it
         })
 
-//        super.onResume()
-//        binding?.notificationMapView?.onResume()
-//        Log.d("FragResume", "initLocationEngine: Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude)
-
-//        val bufMap: MapboxMap = trackMapBoxMap
         driverLat = locationUpdater.location?.latitude
         driverLong = locationUpdater.location?.longitude
-//        Toast.makeText(requireContext(), "Change to : Lat : " + locationUpdater.location?.latitude + " Long : " + locationUpdater.location?.longitude, Toast.LENGTH_LONG).show()
+
         if (trackMapBoxMap != null) {
             if (driverLat != null && driverLong != null && sourceLong != null && sourceLat != null) {
                 getRoutes(driverLat!!, driverLong!!, sourceLat!!, sourceLong!!)
             }
         }
-        Log.d(TAG, "onResume: " + "Okay 2 : " + trackMapBoxMap)
         super.onResume()
         binding?.notificationMapView?.onResume()
-        Log.d(TAG, "onResume: " + "Okay : " + trackMapBoxMap)
     }
 
     override fun onStop() {
         super.onStop()
         binding?.notificationMapView?.onStop()
-        Log.d(TAG, "onStop: ")
     }
 
     override fun onPause() {
         super.onPause()
         binding?.notificationMapView?.onPause()
-        Log.d(TAG, "onPause: ")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding?.notificationMapView?.onSaveInstanceState(outState)
-        Log.d(TAG, "onSaveInstanceState: ")
     }
 
     override fun onDestroyView() {
@@ -479,7 +403,6 @@ class NotificationsFragment : Fragment() {
         if (locationEngine != null) {
             locationEngine.removeLocationUpdates(callback)
         }
-        Log.d(TAG, "onDestroyView: ")
         binding?.notificationMapView?.onDestroy()
         binding = null
 
@@ -489,40 +412,4 @@ class NotificationsFragment : Fragment() {
         super.onLowMemory()
         binding?.notificationMapView?.onLowMemory()
     }
-
-//  private class location_Updater(fragment: NotificationsFragment) : LocationEngineCallback<LocationEngineResult> {
-//
-////        private var  location : Location? = null
-//        private val weakFragmentReference : WeakReference<NotificationsFragment> = WeakReference(fragment)
-//
-//        /**
-//         * The LocationEngineCallback interface's method which fires when the device's location has changed.
-//         *
-//         * @param result the LocationEngineResult object which has the last known location within it.
-//         */
-//
-//        override fun onSuccess(result: LocationEngineResult?) {
-//
-//            if (weakFragmentReference.get() == null || result == null || result.lastLocation == null) {
-//                return
-//            }
-//            else {
-//                weakFragmentReference.get()!!.trackMapBoxMap.locationComponent.forceLocationUpdate(result.lastLocation)
-//                location = result.lastLocation
-//
-//            }
-//
-//        }
-//
-//        /**
-//         * The LocationEngineCallback interface's method which fires when the device's location can not be captured
-//         *
-//         * @param exception the exception message
-//         */
-//        override fun onFailure(exception: Exception) {
-//            if (weakFragmentReference.get() == null)
-//                return
-////        Toast.makeText(weakFragmentReference, "Error : " + exception.localizedMessage, Toast.LENGTH_SHORT).show()
-//        }
-//    }
 }
