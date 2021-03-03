@@ -51,9 +51,9 @@ class HomeFragment : Fragment(){
                         orderList.add(order)
                     }
                 }
-                homeBinding.placedRecyclerView.layoutManager = layoutManager
+//                homeBinding.placedRecyclerView.layoutManager = layoutManager
                 homeBinding.placedRecyclerView.adapter = ordersAdapter(orderList, homeViewModel)
-
+                homeBinding.placedRecyclerView.layoutManager = layoutManager
             }
 
             override fun onCancelled(error: DatabaseError) {

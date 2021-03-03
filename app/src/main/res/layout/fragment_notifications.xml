@@ -8,10 +8,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.notifications.NotificationsFragment">
 
+  <Button
+      android:id="@+id/reachSourceBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="on source location"
+      mapbox:layout_constraintTop_toTopOf="parent"
+      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintEnd_toEndOf="parent"
+      mapbox:layout_constraintStart_toStartOf="parent"
+      android:layout_margin="10dp"
+      android:visibility="gone"
+      tools:visibility="visible"/>
+
   <com.mapbox.mapboxsdk.maps.MapView
+      android:id="@+id/notification_map_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:id="@+id/notification_map_view"
-      mapbox:mapbox_cameraZoom="10"/>
+      mapbox:mapbox_cameraZoom="10">
+
+  </com.mapbox.mapboxsdk.maps.MapView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

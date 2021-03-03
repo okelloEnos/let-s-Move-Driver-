@@ -20,9 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -69,6 +67,7 @@ import retrofit2.Response
 
 class NotificationsFragment : Fragment() {
 
+    private lateinit var NotificationReference: DatabaseReference
     private val TAG = "NotificationsFragment"
     private lateinit var notificationsViewModel: sharedViewModel
     private var binding: FragmentNotificationsBinding? = null
@@ -93,8 +92,8 @@ class NotificationsFragment : Fragment() {
     private var driverLat: Double? = null
     private var driverLong: Double? = null
 
-    private val databaseInstance = Firebase.database
-    val myRef = databaseInstance.getReference("mapMap")
+//    private val databaseInstance = Firebase.database
+//    val myRef = databaseInstance.getReference("mapMap")
 //    private val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(Shared_File, Context.MODE_PRIVATE)
 
 
@@ -113,6 +112,7 @@ class NotificationsFragment : Fragment() {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
 
+        NotificationReference = FirebaseDatabase.getInstance().getReference("TrackingNode")
         notificationsViewModel = ViewModelProvider(requireActivity()).get(sharedViewModel::class.java)
 
         notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
@@ -133,6 +133,13 @@ class NotificationsFragment : Fragment() {
                 // turn on GPS
                 isGPS = isGPSEnable
             }
+        })
+
+        binding?.reachSourceBtn?.setOnClickListener(View.OnClickListener {
+            notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+                val orderKey : String? = it.id
+                NotificationReference.child(orderKey!!).child("SourceResponse").setValue("YES")
+            })
         })
 
         binding?.notificationMapView?.onCreate(savedInstanceState)
@@ -349,6 +356,11 @@ class NotificationsFragment : Fragment() {
                         //              reset the GeoJSON source for the route LineLayer source
                         source?.setGeoJson(LineString.fromPolyline(currentRoute.geometry()!!, PRECISION_6))
                     }
+                }
+
+                val distanceRem: Double = currentRoute.distance()
+                if(distanceRem <= 0){
+                    binding?.reachSourceBtn?.visibility = View.VISIBLE
                 }
 
             }
