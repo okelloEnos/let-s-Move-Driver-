@@ -139,6 +139,14 @@ class NotificationsFragment : Fragment() {
             notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
                 val orderKey : String? = it.id
                 NotificationReference.child(orderKey!!).child("SourceResponse").setValue("YES")
+                binding?.reachSourceBtn?.text = "Heading to Destination"
+                binding?.reachSourceBtn?.setOnClickListener {
+                    NotificationReference.child(orderKey!!).child("DestinationResponse").setValue("YES")
+                    binding?.reachSourceBtn?.text = "Delivery Complete"
+                    binding?.reachSourceBtn?.setOnClickListener {
+                        NotificationReference.child(orderKey!!).child("DeliveryResponse").setValue("COMPLETE")
+                    }
+                }
             })
         })
 
@@ -383,6 +391,8 @@ class NotificationsFragment : Fragment() {
             trackMapBoxMap = it
         })
 
+//        binding?.reachSourceBtn?.visibility = View.INVISIBLE
+
         driverLat = locationUpdater.location?.latitude
         driverLong = locationUpdater.location?.longitude
 
@@ -425,3 +435,6 @@ class NotificationsFragment : Fragment() {
         binding?.notificationMapView?.onLowMemory()
     }
 }
+/**
+ * Shifting direction and maps towards destination after arriving at destination
+ */
