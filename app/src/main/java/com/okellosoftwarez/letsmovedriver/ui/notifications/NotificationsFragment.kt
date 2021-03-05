@@ -63,6 +63,7 @@ import com.okellosoftwarez.letsmovedriver.util.locationUpdater
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 
 class NotificationsFragment : Fragment() {
@@ -80,7 +81,7 @@ class NotificationsFragment : Fragment() {
     private val DEFAULT_MAX_WAIT_TIME: Long = DEFAULT_INTERVAL_IN_MILLISECONDS * 5
     private var sourceLat: Double? = null
     private var sourceLong: Double? = null
-    private var destinationLat: Double? = null
+    private var destinationLat: Double = 0.0
     private var destinationLong: Double? = null
     private val symbolIconId = "symbolIconId"
     private val geoSourceLayerId = "sourceLayerId"
@@ -122,7 +123,7 @@ class NotificationsFragment : Fragment() {
             sourceLong = it.sourceLocationLongitude
         })
         notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
-            destinationLat = it.destinationLocationLatitude
+            destinationLat = it.destinationLocationLatitude!!
         })
         notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
             destinationLong = it.destinationLocationLongitude
@@ -136,9 +137,36 @@ class NotificationsFragment : Fragment() {
         })
 
         binding?.reachSourceBtn?.setOnClickListener(View.OnClickListener {
-            notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+            notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer { it ->
+                val changedLat: Double? = it.destinationLocationLatitude
+                val changedLong: Double? = it.destinationLocationLongitude
+//                sourceLat = soLoc
+//                sourceLong = it.destinationLocationLongitude
+//                destinationLat = it.destinationLocationLatitude!!
                 val orderKey : String? = it.id
                 NotificationReference.child(orderKey!!).child("SourceResponse").setValue("YES")
+
+                if (trackMapBoxMap == null){
+                    notificationsViewModel.mapBoxMap.observe(viewLifecycleOwner, Observer {
+                        trackMapBoxMap = it
+                    })
+                }
+
+                driverLat = locationUpdater.location?.latitude
+                driverLong = locationUpdater.location?.longitude
+
+                getRoutes(driverLat!!, driverLong!!, changedLat!!, changedLong!! )
+
+                it.sourceLocationLatitude = changedLat
+                it.sourceLocationLongitude = changedLong
+//                notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+//                    sourceLat = it.destinationLocationLatitude
+//                })
+//                notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
+//                    sourceLong = it.destinationLocationLongitude
+//                })
+//                sourceLat = it.destinationLocationLatitude
+//                sourceLong = it.destinationLocationLongitude
                 binding?.reachSourceBtn?.text = "Heading to Destination"
                 binding?.reachSourceBtn?.setOnClickListener {
                     NotificationReference.child(orderKey!!).child("DestinationResponse").setValue("YES")
