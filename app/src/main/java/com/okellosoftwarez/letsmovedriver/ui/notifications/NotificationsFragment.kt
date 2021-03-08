@@ -167,11 +167,15 @@ class NotificationsFragment : Fragment() {
 //                })
 //                sourceLat = it.destinationLocationLatitude
 //                sourceLong = it.destinationLocationLongitude
-                binding?.reachSourceBtn?.text = "Heading to Destination"
-                binding?.reachSourceBtn?.setOnClickListener {
+//                binding?.reachSourceBtn?.text = "Heading to Destination"
+                binding?.headingDestBtn?.visibility = View.VISIBLE
+                binding?.reachSourceBtn?.visibility = View.INVISIBLE
+                binding?.headingDestBtn?.setOnClickListener {
                     NotificationReference.child(orderKey!!).child("DestinationResponse").setValue("YES")
-                    binding?.reachSourceBtn?.text = "Delivery Complete"
-                    binding?.reachSourceBtn?.setOnClickListener {
+//                    binding?.reachSourceBtn?.text = "Delivery Complete"
+                    binding?.deliveryDestBtn?.visibility = View.VISIBLE
+                    binding?.headingDestBtn?.visibility = View.INVISIBLE
+                    binding?.deliveryDestBtn?.setOnClickListener {
                         NotificationReference.child(orderKey!!).child("DeliveryResponse").setValue("COMPLETE")
                     }
                 }
@@ -394,10 +398,10 @@ class NotificationsFragment : Fragment() {
                     }
                 }
 
-                val distanceRem: Double = currentRoute.distance()
-                if(distanceRem <= 0){
-                    binding?.reachSourceBtn?.visibility = View.VISIBLE
-                }
+//                val distanceRem: Double = currentRoute.distance()
+//                if(distanceRem <= 0){
+//                    binding?.reachSourceBtn?.visibility = View.VISIBLE
+//                }
 
             }
 

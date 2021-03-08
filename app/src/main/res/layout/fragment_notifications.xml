@@ -17,9 +17,31 @@
       mapbox:layout_constraintBottom_toBottomOf="parent"
       mapbox:layout_constraintEnd_toEndOf="parent"
       mapbox:layout_constraintStart_toStartOf="parent"
-      android:layout_margin="10dp"
-      android:visibility="gone"
-      tools:visibility="visible"/>
+      android:layout_margin="10dp" />
+  <Button
+      android:id="@+id/headingDestBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Heading to Destination"
+      mapbox:layout_constraintTop_toTopOf="parent"
+      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintEnd_toEndOf="parent"
+      android:visibility="invisible"
+      mapbox:layout_constraintStart_toStartOf="parent"
+      android:layout_margin="10dp" />
+
+  <Button
+      android:id="@+id/deliveryDestBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Delivery Complete"
+      mapbox:layout_constraintTop_toTopOf="parent"
+      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintEnd_toEndOf="parent"
+      android:visibility="invisible"
+      mapbox:layout_constraintStart_toStartOf="parent"
+      android:layout_margin="10dp" />
+
 
   <com.mapbox.mapboxsdk.maps.MapView
       android:id="@+id/notification_map_view"
