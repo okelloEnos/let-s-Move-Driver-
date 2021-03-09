@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.okellosoftwarez.letsmovedriver.R
@@ -42,10 +43,13 @@ class DashboardFragment : Fragment() {
         })
 
         dashboardBinding.acceptRequest.setOnClickListener(View.OnClickListener {
+            val view: View = it
 
             dashboardViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
                 val orderKey : String? = it.id
                 DashBoardReference.child(orderKey!!).child("DriverResponse").setValue("YES")
+
+                Navigation.findNavController(view).navigate(R.id.action_navigation_dashboard_to_navigation_notifications)
             })
         })
         return root

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.okellosoftwarez.letsmovedriver.R
 import com.okellosoftwarez.letsmovedriver.databinding.OrdersRecyclerBinding
@@ -39,6 +40,7 @@ private val viewModel: sharedViewModel) : RecyclerView.Adapter<ordersAdapter.ord
         holder.orderView.setOnClickListener{
             Log.d("Click", "onBindViewHolder: $position")
             viewModel.clickedOrder(currentOrder)
+            Navigation.findNavController(it).navigate(R.id.action_navigation_home_to_navigation_dashboard)
         }
     }
 
