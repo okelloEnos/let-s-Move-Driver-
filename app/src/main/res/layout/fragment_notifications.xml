@@ -13,8 +13,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="on source location"
-      mapbox:layout_constraintTop_toTopOf="parent"
-      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintBottom_toTopOf="@id/guidelineBtn"
       mapbox:layout_constraintEnd_toEndOf="parent"
       mapbox:layout_constraintStart_toStartOf="parent"
       android:layout_margin="10dp" />
@@ -23,8 +22,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Heading to Destination"
-      mapbox:layout_constraintTop_toTopOf="parent"
-      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintBottom_toTopOf="@id/guidelineBtn"
       mapbox:layout_constraintEnd_toEndOf="parent"
       android:visibility="invisible"
       mapbox:layout_constraintStart_toStartOf="parent"
@@ -35,8 +33,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Delivery Complete"
-      mapbox:layout_constraintTop_toTopOf="parent"
-      mapbox:layout_constraintBottom_toBottomOf="parent"
+      mapbox:layout_constraintBottom_toTopOf="@id/guidelineBtn"
       mapbox:layout_constraintEnd_toEndOf="parent"
       android:visibility="invisible"
       mapbox:layout_constraintStart_toStartOf="parent"
@@ -46,9 +43,24 @@
   <com.mapbox.mapboxsdk.maps.MapView
       android:id="@+id/notification_map_view"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
+      mapbox:layout_constraintBottom_toTopOf="@id/guidelineBtnMap"
       mapbox:mapbox_cameraZoom="10">
 
   </com.mapbox.mapboxsdk.maps.MapView>
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guidelineBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      mapbox:layout_constraintGuide_percent="0.92"/>
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guidelineBtnMap"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      mapbox:layout_constraintGuide_percent="0.83"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

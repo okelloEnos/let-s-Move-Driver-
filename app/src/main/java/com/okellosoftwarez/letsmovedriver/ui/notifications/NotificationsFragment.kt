@@ -93,21 +93,14 @@ class NotificationsFragment : Fragment() {
     private var driverLat: Double? = null
     private var driverLong: Double? = null
 
-//    private val databaseInstance = Firebase.database
-//    val myRef = databaseInstance.getReference("mapMap")
-//    private val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(Shared_File, Context.MODE_PRIVATE)
-
-
     // Variables needed to listen to location updates
     private val callback: locationUpdater = locationUpdater(this)
 
     companion object {
         const val LOCATION_PERMISSION = 5
-        const val Shared_File = "MapBoxMapFile"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        Log.d(TAG, "onCreateView: " + "1")
         Mapbox.getInstance(requireContext(), getString(R.string.public_token))
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
@@ -140,9 +133,6 @@ class NotificationsFragment : Fragment() {
             notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer { it ->
                 val changedLat: Double? = it.destinationLocationLatitude
                 val changedLong: Double? = it.destinationLocationLongitude
-//                sourceLat = soLoc
-//                sourceLong = it.destinationLocationLongitude
-//                destinationLat = it.destinationLocationLatitude!!
                 val orderKey : String? = it.id
                 NotificationReference.child(orderKey!!).child("SourceResponse").setValue("YES")
 
@@ -159,20 +149,11 @@ class NotificationsFragment : Fragment() {
 
                 it.sourceLocationLatitude = changedLat
                 it.sourceLocationLongitude = changedLong
-//                notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
-//                    sourceLat = it.destinationLocationLatitude
-//                })
-//                notificationsViewModel.receivedOrd.observe(viewLifecycleOwner, Observer {
-//                    sourceLong = it.destinationLocationLongitude
-//                })
-//                sourceLat = it.destinationLocationLatitude
-//                sourceLong = it.destinationLocationLongitude
-//                binding?.reachSourceBtn?.text = "Heading to Destination"
+
                 binding?.headingDestBtn?.visibility = View.VISIBLE
                 binding?.reachSourceBtn?.visibility = View.INVISIBLE
                 binding?.headingDestBtn?.setOnClickListener {
                     NotificationReference.child(orderKey!!).child("DestinationResponse").setValue("YES")
-//                    binding?.reachSourceBtn?.text = "Delivery Complete"
                     binding?.deliveryDestBtn?.visibility = View.VISIBLE
                     binding?.headingDestBtn?.visibility = View.INVISIBLE
                     binding?.deliveryDestBtn?.setOnClickListener {
@@ -242,6 +223,7 @@ class NotificationsFragment : Fragment() {
             ))))
 
             if (driverLong != null && driverLat != null) {
+                getRoutes(driverLat!!, driverLong!!, sourceLat!!, sourceLong!!)
                 bound()
             }
 
@@ -264,6 +246,7 @@ class NotificationsFragment : Fragment() {
                     ))))
 
             if (sourceLat != null && sourceLong != null) {
+                getRoutes(driverLat!!, driverLong!!, sourceLat!!, sourceLong!!)
                 bound()
             }
         }
@@ -415,6 +398,7 @@ class NotificationsFragment : Fragment() {
     @SuppressWarnings("MissingPermission")
     override fun onStart() {
         super.onStart()
+        initLocationEngine()
         binding?.notificationMapView?.onStart()
 
     }
@@ -422,8 +406,6 @@ class NotificationsFragment : Fragment() {
         notificationsViewModel.mapBoxMap.observe(viewLifecycleOwner, Observer {
             trackMapBoxMap = it
         })
-
-//        binding?.reachSourceBtn?.visibility = View.INVISIBLE
 
         driverLat = locationUpdater.location?.latitude
         driverLong = locationUpdater.location?.longitude
