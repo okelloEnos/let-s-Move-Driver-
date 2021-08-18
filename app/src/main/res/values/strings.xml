@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">letsMove(Driver)</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Pending Delivery Request</string>
+    <string name="title_dashboard">Request Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="token">d55a7b35369b500eb53633f5f70769d237f8acd2</string>
     <string name="public_token">pk.eyJ1IjoiY29kZS1nZW5lcmFsIiwiYSI6ImNra2NtcjBwcTBsaXMyb29hMGw4ZzFnZXIifQ.MmdOkaY4tpy2MauYCPB-Mg</string>
